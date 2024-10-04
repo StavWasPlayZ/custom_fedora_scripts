@@ -14,12 +14,11 @@ fi
 
 
 encode_davinci() {
-    # ffmpeg -i "$1" -vcodec mjpeg -q:v 2 -acodec pcm_s16be -q:a 0 -f mov "$1"
+    # ffmpeg -i "$1" -vcodec mjpeg -q:v 2 -acodec pcm_s16be -q:a 0 -f mov "$1.encoded.mov"
     ffmpeg -i "$1" -c:v mpeg4 -q:v 2 -c:a flac "${1}.flac.mp4"
 }
 decode_davinci() {
-    # ffmpeg -i "$1" -c:v libx264 -preset ultrafast -crf 0 "${1}.out.mp4"
-    ffmpeg -i "$1" -c:v copy -c:a aac -b:a 192k "${1}.regular.mp4" # Note: Untested
+    ffmpeg -i "$1" -c:v libx264 -preset ultrafast -crf 0 "${1}.out.mp4"
 }
 
 case "$1" in
