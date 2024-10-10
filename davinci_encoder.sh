@@ -13,13 +13,13 @@ main() {
     add_extension=true
 
     # Prameter processing
-    if [ "$#" -eq 5 ]; then
-        [[ "$5" == "y" ]] && add_extension=true || add_extension=false
-    elif [ "$#" -eq 4 ]; then
-        out_path=$4
-    elif [ "$#" -ne 3 ]; then
-    echo "Invalid parameter amount"
+    if [ "$#" -lt 3 ]; then
+        echo "Invalid parameter amount"
         usage_err
+    fi; if [ "$#" -ge 4 ]; then
+        out_path=$4
+    fi; if [ "$#" -eq 5 ]; then
+        [[ "$5" == "y" ]] && add_extension=true || add_extension=false
     fi
 
     case "$2" in
@@ -43,6 +43,8 @@ main() {
 ##
 encode_davinci() {    
     # ffmpeg -i "$1" -vcodec mjpeg -q:v 2 -acodec pcm_s16be -q:a 0 -f mov "$1.encoded.mov"
+    echo "Source: $1"
+    echo "Target: $2"
     ffmpeg -i "$1" -c:v mpeg4 -q:v 2 -c:a flac "$2"
 }
 ##
@@ -50,6 +52,8 @@ encode_davinci() {
 # $2 - output file path
 ##
 decode_davinci() {
+    echo "Source: $1"
+    echo "Target: $2"
     ffmpeg -i "$1" -c:v libx264 -preset ultrafast -crf 0 "$2"
 }
 
