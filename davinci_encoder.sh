@@ -45,7 +45,7 @@ encode_davinci() {
     # ffmpeg -i "$1" -vcodec mjpeg -q:v 2 -acodec pcm_s16be -q:a 0 -f mov "$1.encoded.mov"
     echo "Source: $1"
     echo "Target: $2"
-    ffmpeg -i "$1" -c:v mpeg4 -q:v 2 -c:a flac "$2"
+    ffmpeg -i "$1" -map 0 -c:v mpeg4 -q:v 2 -c:a flac "$2"
 }
 ##
 # $1 - input file path
@@ -54,7 +54,7 @@ encode_davinci() {
 decode_davinci() {
     echo "Source: $1"
     echo "Target: $2"
-    ffmpeg -i "$1" -c:v libx264 -preset ultrafast -crf 0 "$2"
+    ffmpeg -i "$1" -c:v libx264 -preset slow -crf 18 -c:a aac -b:a 192k "$2"
 }
 
 ##
